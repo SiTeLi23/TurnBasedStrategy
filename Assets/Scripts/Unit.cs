@@ -7,12 +7,21 @@ public class Unit : MonoBehaviour
     [SerializeField]private Animator unitAnimator;
     private Vector3 targetPosition;
 
+    //current gridposition
+    private GridPosition gridPosition;
 
     private void Awake()
     {
         targetPosition = transform.position;
     }
 
+
+    private void Start()
+    {
+        //transform unit's current position into gridposition
+        gridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        LevelGrid.Instance.AddUnitAtGridPosition(gridPosition,this);
+    }
 
     private void Update()
     {
@@ -41,8 +50,20 @@ public class Unit : MonoBehaviour
 
         }
 
+        //get unit's current new gridPosition
+         GridPosition  newgridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
 
-      
+
+        //if new grid position is not the same as current gridPosition
+        if(newgridPosition!= gridPosition) 
+        {
+            //Unit changed Grid Position
+            LevelGrid.Instance.UnitMovedGridPosition(this, gridPosition, newgridPosition);
+
+            //update current gridPosition to new gridPosition
+            gridPosition = newgridPosition;
+        }
+
 
     }
 
