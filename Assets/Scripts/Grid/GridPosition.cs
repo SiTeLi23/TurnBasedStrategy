@@ -20,7 +20,7 @@ public struct GridPosition :IEquatable<GridPosition>
 
 
 
-    #region Handle Equality
+    #region Implement Equality Operator
     public override bool Equals(object obj)
     {
         return obj is GridPosition position &&
@@ -65,6 +65,27 @@ public struct GridPosition :IEquatable<GridPosition>
 
 
     }
+
+    #endregion
+
+
+
+
+    #region  Implement Plus and minus Operator 
+    public static GridPosition operator +(GridPosition a, GridPosition b) 
+    {
+        //handle +
+        return new GridPosition(a.x + b.x, a.z + b.z);
+    
+    }
+
+    public static GridPosition operator -(GridPosition a, GridPosition b)
+    {
+        //handle -
+        return new GridPosition(a.x - b.x, a.z - b.z);
+
+    }
+
 
     #endregion
 

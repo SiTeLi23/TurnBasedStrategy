@@ -4,17 +4,21 @@ using UnityEngine;
 
 public class Unit : MonoBehaviour
 {
-    [SerializeField]private Animator unitAnimator;
-    private Vector3 targetPosition;
 
     //current gridposition
     private GridPosition gridPosition;
 
+    private MoveAction moveAction;
+    private SpinAction spinAction;
+    private BaseAction[] baseActionArray;
+
+
     private void Awake()
     {
-        targetPosition = transform.position;
+        moveAction = GetComponent<MoveAction>();
+        spinAction = GetComponent<SpinAction>();
+        baseActionArray = GetComponents<BaseAction>();
     }
-
 
     private void Start()
     {
@@ -25,33 +29,11 @@ public class Unit : MonoBehaviour
 
     private void Update()
     {
-       
-        //make sure unit stop when reaching target position without jiggling
-        float stoppingDistance = 0.1f;
-        if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
-        {
 
-            //get the direction toward target position and move to there
-            Vector3 moveDiretion = (targetPosition - transform.position).normalized;
-            float moveSpeed = 4f;
-            transform.position += moveDiretion * moveSpeed * Time.deltaTime;
-
-            //rotate player to where they face
-            float rotateSpeed = 10f;
-            transform.forward =  Vector3.Lerp(transform.forward,moveDiretion,rotateSpeed* Time.deltaTime);
-
-            //play running animation
-            unitAnimator.SetBool("IsWalking", true);
-        }
-        else 
-        {
-            //stop running animation
-            unitAnimator.SetBool("IsWalking", false);
-
-        }
+        #region Tracking Current Grid
 
         //get unit's current new gridPosition
-         GridPosition  newgridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
+        GridPosition newgridPosition = LevelGrid.Instance.GetGridPosition(transform.position);
 
 
         //if new grid position is not the same as current gridPosition
@@ -64,17 +46,36 @@ public class Unit : MonoBehaviour
             gridPosition = newgridPosition;
         }
 
+        #endregion
+
 
     }
 
 
 
-    //tell the Unit to move to target position
-    public void Move(Vector3 targetPosition) 
+    //give other scripts access to the move action script reference
+    public MoveAction GetMoveAction() 
     {
-        this.targetPosition = targetPosition;
+        return moveAction;
     }
 
+    //give other scripts access to the spin action script reference
+    public SpinAction GetSpinAction()
+    {
+        return spinAction;
+    }
 
+    //give other scripts access to current grid where this unit locate
+    public GridPosition GetGridPosition() 
+    {
+
+        return gridPosition;
+    }
+
+    //give other scripts access to action array where this unit locate
+    public BaseAction[] GetBaseActionArray() 
+    {
+        return baseActionArray;
+    }
 
 }

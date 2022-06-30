@@ -5,6 +5,10 @@ using UnityEngine;
 public class GridSystem 
 {
 
+
+    //This script mainly contain all the grid information
+    //This script mainly responsible for converting World/Grid Position
+
     private int width;
     private int height;
     private float cellSize;
@@ -90,6 +94,30 @@ public class GridSystem
     public GridObject GetGridObject(GridPosition gridPosition) 
     {
         return gridObjectArray[gridPosition.x, gridPosition.z];
+    }
+
+
+    //check if certain gridposition is valid position
+    public bool IsValidGridPosition(GridPosition gridPosition) 
+    {
+        //grid only valid if it not exceed our total grid size
+        return gridPosition.x >= 0 &&
+               gridPosition.z >= 0 &&
+               gridPosition.x < width && 
+               gridPosition.z < height;
+    }
+
+
+
+    //getter for width and height
+    public int GetWidth() 
+    {
+        return width;
+    }
+
+    public int GetHeight() 
+    {
+        return height;
     }
 
 

@@ -4,6 +4,9 @@ using UnityEngine;
 
 public class LevelGrid : MonoBehaviour
 {
+
+ //This script mainly responsible for passing through grid information to other scripts
+ 
     public static LevelGrid Instance { get; private set; }
 
 
@@ -26,7 +29,7 @@ public class LevelGrid : MonoBehaviour
         Instance = this;
         #endregion
 
-        //create a gridSystem
+        //create a grid
         gridSystem = new GridSystem(10, 10, 2f);
 
         //tell the gridSystem to create debug Object
@@ -70,10 +73,32 @@ public class LevelGrid : MonoBehaviour
 
 
 
-
+    #region PassThrough Functions
 
     // lambda => is an automatical way of returning some value 
+
+    //getter for gridPosition from gridSystem
     public GridPosition GetGridPosition(Vector3 worldPosition) => gridSystem.GetGridPosition(worldPosition);
-    
+
+    //getter for WorldPosition from gridSystem
+    public Vector3 GetWorldPosition(GridPosition gridPosition) => gridSystem.GetWorldPosition(gridPosition);
+
+    // getter for the value which checking if a grid is valid or not
+    public bool IsValidGridPosition(GridPosition gridPosition) => gridSystem.IsValidGridPosition(gridPosition);
+
+    //getter for width of grid from gridSystem
+    public int GetWidth() => gridSystem.GetWidth();
+    //getter for height of grid from gridSystem
+    public int GetHeight() => gridSystem.GetHeight();
+
+    //check if there's any unit in certain gridposition
+    public bool HasAnyUnitOnGridPosition(GridPosition gridPosition) 
+    {
+        GridObject gridObject = gridSystem.GetGridObject(gridPosition);
+        return gridObject.HasAnyUnit();
+
+    }
+
+    #endregion
 
 }

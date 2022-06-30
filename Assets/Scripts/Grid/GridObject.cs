@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GridObject : MonoBehaviour
+public class GridObject 
 {
-    //this class contain all the grid information
+    
 
 
     //know which gridsSystem creat this grid object
@@ -63,6 +63,13 @@ public class GridObject : MonoBehaviour
     {
 
         unitList.Remove(unit);
+    }
+
+
+    public bool HasAnyUnit() 
+    {
+
+        return unitList.Count > 0;
     }
 
 
