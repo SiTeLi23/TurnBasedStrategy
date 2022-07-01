@@ -18,25 +18,25 @@ public class SpinAction : BaseAction
         transform.eulerAngles += new Vector3(0, spinAddAmount, 0);
 
         totalSpinAmount += spinAddAmount;
-        if (totalSpinAmount >= 360f) 
+        if (totalSpinAmount >= 360f)
         {
             isActive = false;
             //we call the delegate which store a reference to a function within other scripts no matter it's public or private
             onActionComplete();
         }
-        
+
     }
 
 
     //action name
-    public void Spin(Action onSpinComplete) 
+    public override void TakeAction(GridPosition gridPosition, Action onSpinComplete)
     {
         //we store the function reference we received from other scripts first
         this.onActionComplete = onSpinComplete;
 
         isActive = true;
-        totalSpinAmount = 0f; 
-      
+        totalSpinAmount = 0f;
+
     }
 
 
@@ -44,4 +44,28 @@ public class SpinAction : BaseAction
     {
         return "SPIN";
     }
+
+    public override List<GridPosition> GetValidActionGridPositionList()
+    {
+
+        List<GridPosition> validGridPositionList = new List<GridPosition>();
+
+        //check unit grid position
+        GridPosition unitGridPosition = unit.GetGridPosition();
+
+        //return a list that contain this unit'S Grid Position
+        return new List<GridPosition>
+        {
+            unitGridPosition
+        };
+    }
+
+    //action cost 
+    public override int GetActionPointsCost()
+    {
+        return 2;
+    }
+
+
+
 }

@@ -27,7 +27,27 @@ public abstract class BaseAction : MonoBehaviour
     //abstract mean force other child script to instantiate this function
     public abstract string GetActionName();
 
+    public abstract void TakeAction(GridPosition gridPosition, Action onactionComplete);
+    
+
+    public virtual bool IsValidActionGridPosition(GridPosition gridPosition) 
+    {
+        //get the list of all valid grids
+        List<GridPosition> validGridPositionList = GetValidActionGridPositionList();
+
+        //if this gridPosition is within the list, then this gridPosition is valid gridPosiiton
+        return validGridPositionList.Contains(gridPosition);
+
+    }
+
+    public abstract List<GridPosition> GetValidActionGridPositionList();
 
 
+    public virtual int GetActionPointsCost()
+    {
+        return 1;
+    
+    }
 
+    
 }

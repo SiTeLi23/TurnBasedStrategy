@@ -61,7 +61,7 @@ public class MoveAction : BaseAction
     }
 
     //tell the Unit to move to target position
-    public void Move(GridPosition gridPosition, Action onActionComplete)
+    public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
         //store the function reference we received
         this.onActionComplete = onActionComplete;
@@ -74,22 +74,11 @@ public class MoveAction : BaseAction
 
 
 
-    public bool IsValidActionGridPosition(GridPosition gridPosition) 
-    {
-        //get the list of all valid grids
-       List<GridPosition> validGridPositionList = GetValidActionGridPositionList();
-
-        //if this gridPosition is within the list, then this gridPosition is valid gridPosiiton
-        return validGridPositionList.Contains(gridPosition);
-    }
-
-
-
 
     //return a list of all valid grids 
-    public List<GridPosition> GetValidActionGridPositionList() 
+    public override List<GridPosition> GetValidActionGridPositionList() 
     {
-        #region Grid Validation Checking Logic
+      
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
         GridPosition unitGridPosition = unit.GetGridPosition();
@@ -131,7 +120,7 @@ public class MoveAction : BaseAction
                 
 
             }
-            #endregion
+           
         }
 
 
