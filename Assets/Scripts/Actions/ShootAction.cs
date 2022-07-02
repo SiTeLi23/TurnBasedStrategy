@@ -197,8 +197,6 @@ public class ShootAction : BaseAction
 
     public override void TakeAction(GridPosition gridPosition, Action onactionComplete)
     {
-        //we store the function reference we received from other scripts first
-        ActionStart(onactionComplete);
 
         //get the target unit
         targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
@@ -209,6 +207,27 @@ public class ShootAction : BaseAction
         stateTimer = aimingStateTime;
 
         canShootBullet = true;
-      
+
+      //we store the function reference we received from other scripts first 
+      //make sure all the logic done first then we called the event
+        ActionStart(onactionComplete);
     }
+
+
+    //getter for target unit
+    public Unit GetTargetUnit() 
+    {
+        return targetUnit;
+    }
+
+    //getter for shooting range
+
+    public int GetMaxShootDistance() 
+    {
+        return maxShootDistance;
+    
+    }
+
+
+
 }

@@ -8,7 +8,8 @@ using UnityEngine;
 //just to make sure not accidently creat and instance of this class
 public abstract class BaseAction : MonoBehaviour
 {
-
+    public static event EventHandler OnAnyActionStarted;
+    public static event EventHandler OnAnyActionCompleted;
 
     //protected can prevent other class change this value, but class that extend this class will be able to get access to those data
     protected Unit unit;
@@ -57,6 +58,8 @@ public abstract class BaseAction : MonoBehaviour
         isActive = true;
         //get the clear the busy state function  and stored in the script as a reference
         this.onActionComplete = onActionComplete;
+
+        OnAnyActionStarted?.Invoke(this, EventArgs.Empty);
     
     }
 
@@ -67,7 +70,16 @@ public abstract class BaseAction : MonoBehaviour
         isActive = false;
        //clear the busy state
         onActionComplete();
+
+        OnAnyActionCompleted?.Invoke(this, EventArgs.Empty);
     
+    }
+
+
+    //getter for this unit
+    public Unit GetUnit() 
+    {
+        return unit;
     }
 
     

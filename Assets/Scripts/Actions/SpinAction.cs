@@ -31,9 +31,10 @@ public class SpinAction : BaseAction
     //action name
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
     {
+      
+        totalSpinAmount = 0f;
         //we store the function reference we received from other scripts first
         ActionStart(onActionComplete);
-        totalSpinAmount = 0f;
 
     }
 
@@ -60,7 +61,7 @@ public class SpinAction : BaseAction
     //action cost 
     public override int GetActionPointsCost()
     {
-        return 2;
+        return 1;
     }
 
 

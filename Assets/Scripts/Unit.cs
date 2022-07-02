@@ -9,7 +9,11 @@ public class Unit : MonoBehaviour
 
 
     [SerializeField] private bool isEnemy;
+
+
     public static event EventHandler OnAnyActionPointsChanged;
+    public static event EventHandler OnAnyUnitSpawed;
+    public static event EventHandler OnAnyUnitDead;
 
 
     //current gridposition
@@ -45,6 +49,8 @@ public class Unit : MonoBehaviour
 
         //subscribe to death event
         healthSystem.OnDead += HealthSystem_OnDead;
+
+        OnAnyUnitSpawed?.Invoke(this, EventArgs.Empty);
     }
 
     private void Update()
@@ -59,11 +65,15 @@ public class Unit : MonoBehaviour
         //if new grid position is not the same as current gridPosition
         if(newgridPosition!= gridPosition) 
         {
-            //Unit changed Grid Position
-            LevelGrid.Instance.UnitMovedGridPosition(this, gridPosition, newgridPosition);
+
 
             //update current gridPosition to new gridPosition
-            gridPosition = newgridPosition;
+            //we need to update the grid position before updating grid visual
+            GridPosition oldGridPosition = gridPosition;
+            gridPosition = newgridPosition; 
+            
+            //Unit changed Grid Position
+            LevelGrid.Instance.UnitMovedGridPosition(this, oldGridPosition, newgridPosition);
         }
 
         #endregion
@@ -199,6 +209,8 @@ public class Unit : MonoBehaviour
         LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition,this);
 
         Destroy(gameObject);
+
+        OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
     
     }
 
