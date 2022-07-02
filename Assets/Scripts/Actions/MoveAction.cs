@@ -5,7 +5,11 @@ using UnityEngine;
 
 public class MoveAction : BaseAction
 {
-    private Animator unitAnimator;
+
+    public event EventHandler OnStartMoving;
+    public event EventHandler OnStopMoving;
+
+
     private Vector3 targetPosition;
 
 
@@ -17,7 +21,7 @@ public class MoveAction : BaseAction
         base.Awake();
 
         targetPosition = transform.position;
-        unitAnimator = GetComponentInChildren<Animator>();
+      
        
     }
 
@@ -35,21 +39,19 @@ public class MoveAction : BaseAction
         float stoppingDistance = 0.1f;
         if (Vector3.Distance(transform.position, targetPosition) > stoppingDistance)
         {
-
-      
+ 
             float moveSpeed = 4f;
             transform.position += moveDiretion * moveSpeed * Time.deltaTime;
-
-            //play running animation
-            unitAnimator.SetBool("IsWalking", true);
+    
         }
         else
         {
-            //stop running animation, and disactive move function
-            unitAnimator.SetBool("IsWalking", false);
-            isActive = false;
+
+            //fire event of stop moving
+            OnStopMoving?.Invoke(this, EventArgs.Empty);
+
             //use delegate to called the reference function to set back isBusy to false
-            onActionComplete();
+            ActionComplete();
 
         }  
         //rotate player to where they face
@@ -63,13 +65,15 @@ public class MoveAction : BaseAction
     //tell the Unit to move to target position
     public override void TakeAction(GridPosition gridPosition, Action onActionComplete)
         {
-        //store the function reference we received
-        this.onActionComplete = onActionComplete;
 
-        //set up target position
+           ActionStart(onActionComplete);
+
+           //set up target position
             this.targetPosition = LevelGrid.Instance.GetWorldPosition(gridPosition);
-        //active move action
-            isActive = true;
+
+        //fire event
+        OnStartMoving?.Invoke(this, EventArgs.Empty);
+     
         }
 
 

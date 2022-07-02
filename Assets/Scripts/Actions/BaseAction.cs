@@ -49,5 +49,26 @@ public abstract class BaseAction : MonoBehaviour
     
     }
 
+
+
+    protected void ActionStart(Action onActionComplete) 
+    {
+       //active this action
+        isActive = true;
+        //get the clear the busy state function  and stored in the script as a reference
+        this.onActionComplete = onActionComplete;
+    
+    }
+
+
+    protected void ActionComplete() 
+    {
+        //disactive this action
+        isActive = false;
+       //clear the busy state
+        onActionComplete();
+    
+    }
+
     
 }

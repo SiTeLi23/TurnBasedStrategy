@@ -11,7 +11,10 @@ public class TurnSystem : MonoBehaviour
 
     public event EventHandler OnTurnChanged;
 
-     private int turnNumber = 1;
+    private int turnNumber = 1;
+
+    private bool isPlayerTurn = true;
+
 
 
     private void Awake()
@@ -33,6 +36,9 @@ public class TurnSystem : MonoBehaviour
     {
 
         turnNumber++;
+
+        //invert the is player turn
+        isPlayerTurn = !isPlayerTurn;
         
         //fire an Turn changed event
         OnTurnChanged?.Invoke(this, EventArgs.Empty);
@@ -44,4 +50,11 @@ public class TurnSystem : MonoBehaviour
     {
         return turnNumber;
     }
+
+    //getter for telling whose turn is it right now
+    public bool IsPlayerTurn() 
+    {
+        return isPlayerTurn;
+    }
+
 }

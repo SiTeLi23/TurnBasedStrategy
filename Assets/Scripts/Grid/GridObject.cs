@@ -72,6 +72,21 @@ public class GridObject
         return unitList.Count > 0;
     }
 
+    public Unit GetUnit() 
+    {
+        if (HasAnyUnit()) 
+        {
+            //we only want to get the first unit cause there's chance when another unit moving to the same grid
+            return unitList[0];
+        }
+
+        else 
+        {
+
+            return null;
+        }
+    
+    }
 
     #endregion
 

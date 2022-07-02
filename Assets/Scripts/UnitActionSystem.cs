@@ -46,6 +46,9 @@ public class UnitActionSystem : MonoBehaviour
 
         if (isBusy) return;
 
+        //if this turn is not player turn , do nothing
+        if (!TurnSystem.Instance.IsPlayerTurn()) return;
+
 
         //if mouse is over a UI button or game object, do not take action 
         if (EventSystem.current.IsPointerOverGameObject()) return;
@@ -135,6 +138,13 @@ public class UnitActionSystem : MonoBehaviour
                     {
                         //if current unit has already been selected, we don't want to select this unit
                         return false;
+                    }
+
+                    
+                    if (unit.IsEnemy())
+                    {
+                        //if this unit it an enemy, dont select it
+                        return false; 
                     }
 
                     SetSelectedUnit(unit);

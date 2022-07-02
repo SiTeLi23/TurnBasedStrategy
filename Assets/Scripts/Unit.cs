@@ -8,12 +8,16 @@ public class Unit : MonoBehaviour
     private const int ACTION_POINTS_MAX = 2;
 
 
-
+    [SerializeField] private bool isEnemy;
     public static event EventHandler OnAnyActionPointsChanged;
 
 
     //current gridposition
     private GridPosition gridPosition;
+
+    //health system
+    private HealthSystem healthSystem;
+
 
     private MoveAction moveAction;
     private SpinAction spinAction;
@@ -27,6 +31,7 @@ public class Unit : MonoBehaviour
         moveAction = GetComponent<MoveAction>();
         spinAction = GetComponent<SpinAction>();
         baseActionArray = GetComponents<BaseAction>();
+        healthSystem = GetComponent<HealthSystem>();
     }
 
     private void Start()
@@ -37,6 +42,9 @@ public class Unit : MonoBehaviour
 
         //subscribe to turn end event
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+
+        //subscribe to death event
+        healthSystem.OnDead += HealthSystem_OnDead;
     }
 
     private void Update()
@@ -82,6 +90,13 @@ public class Unit : MonoBehaviour
     {
 
         return gridPosition;
+    }
+
+    //give other scripts access to current world Position where this unit locate
+    public Vector3 GetWorldPosition()
+    {
+
+        return transform.position;
     }
 
     //give other scripts access to action array where this unit locate
@@ -150,11 +165,42 @@ public class Unit : MonoBehaviour
 
     private void TurnSystem_OnTurnChanged(object sender,EventArgs e) 
     {
-        //reset the action Points
-        actionPoints = ACTION_POINTS_MAX;
+        // make sure player and enemy will only refersh their action points in their turn
+        if ((isEnemy && !TurnSystem.Instance.IsPlayerTurn())||(!isEnemy&&TurnSystem.Instance.IsPlayerTurn()))
+        {
 
-        OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+            //reset the action Points
+            actionPoints = ACTION_POINTS_MAX;
+
+            OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
+        }
 
     }
+
+    //getter for telling if this unit is an enemy
+    public bool IsEnemy() 
+    {
+
+        return isEnemy;
+    }
+
+
+
+
+    public void Damage(int damageAmount) 
+    {
+
+        healthSystem.Damage(damageAmount);
+    }
+
+     private void HealthSystem_OnDead(object sender, EventArgs e) 
+    {
+        //remove the unit from the grid first
+        LevelGrid.Instance.RemoveUnitAtGridPosition(gridPosition,this);
+
+        Destroy(gameObject);
+    
+    }
+
 
 }
