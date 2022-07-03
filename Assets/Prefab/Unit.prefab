@@ -617,6 +617,7 @@ GameObject:
   - component: {fileID: 1881794054243168287}
   - component: {fileID: 100339546815956516}
   - component: {fileID: 5015001964567570531}
+  - component: {fileID: 1490892801126939640}
   - component: {fileID: 7469105838769373634}
   - component: {fileID: 5043111975891471866}
   m_Layer: 7
@@ -727,6 +728,21 @@ MonoBehaviour:
   bulletProjectilePrefab: {fileID: 8246058279345562233, guid: 2b0dc90201122c640aa1ad56249860ac,
     type: 3}
   shootPointTransform: {fileID: 2130613187711152340}
+--- !u!114 &1490892801126939640
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8166251792890549027}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89f2138afb27ad648bbf5f1d3951c959, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  grenadeProjectilePrefab: {fileID: 382704630733217197, guid: 727885536f79c22438b02447bff12ca3,
+    type: 3}
+  maxThrowDistance: 7
 --- !u!114 &7469105838769373634
 MonoBehaviour:
   m_ObjectHideFlags: 0

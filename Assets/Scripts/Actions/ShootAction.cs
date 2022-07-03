@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class ShootAction : BaseAction
 {
+
+    public static event EventHandler<OnShootEventArgs> OnAnyShoot;
+
    public event EventHandler<OnShootEventArgs> OnShoot;
 
    //customize an event args for us to pass through some data variable
@@ -115,8 +118,9 @@ public class ShootAction : BaseAction
     private void Shoot() 
     {
         //fire event
+        OnAnyShoot?.Invoke(this, new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit }); ;
         OnShoot?.Invoke(this, new OnShootEventArgs { targetUnit = targetUnit, shootingUnit = unit }); ;
-
+        //cause damage
         targetUnit.Damage(40);
     }
 
@@ -137,9 +141,6 @@ public class ShootAction : BaseAction
     public  List<GridPosition> GetValidActionGridPositionList(GridPosition unitGridPosition)
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
-
-       
-
 
         //cycle through all the x and z 
         for (int x = -maxShootDistance; x <= maxShootDistance; x++)
