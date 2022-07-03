@@ -8,7 +8,7 @@ public class GridObject
 
 
     //know which gridsSystem creat this grid object
-    private GridSystem gridSystem;
+    private GridSystem<GridObject> gridSystem;
 
     //know this gridobjects' grid position
     private GridPosition gridPosition;
@@ -16,7 +16,7 @@ public class GridObject
     //get a list of current units on this grid
     private List<Unit> unitList;
     
-    public GridObject(GridSystem gridSystem,GridPosition gridPosition) 
+    public GridObject(GridSystem<GridObject> gridSystem,GridPosition gridPosition) 
     {
         this.gridSystem = gridSystem;
 

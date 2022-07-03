@@ -22,7 +22,7 @@ public class ShootAction : BaseAction
        Cooloff,
     
     }
-
+    [SerializeField] private LayerMask obstacleLayerMask;
     private State state;
     private float stateTimer;
     private Unit targetUnit;
@@ -127,11 +127,18 @@ public class ShootAction : BaseAction
         return "Shoot";
     }
 
+
     public override List<GridPosition> GetValidActionGridPositionList()
+    {
+        GridPosition unitGridPosition = unit.GetGridPosition();
+        return GetValidActionGridPositionList(unitGridPosition);
+    }
+
+    public  List<GridPosition> GetValidActionGridPositionList(GridPosition unitGridPosition)
     {
         List<GridPosition> validGridPositionList = new List<GridPosition>();
 
-        GridPosition unitGridPosition = unit.GetGridPosition();
+       
 
 
         //cycle through all the x and z 
@@ -183,6 +190,22 @@ public class ShootAction : BaseAction
                     continue;
                 }
 
+                Vector3 unitWorldPosition = LevelGrid.Instance.GetWorldPosition(unitGridPosition);
+                Vector3 shootDir = (targetUnit.GetWorldPosition() - unitWorldPosition).normalized;
+                float unitShoulderHeight = 1.7f;
+
+               if( Physics.Raycast(
+                    unitWorldPosition + Vector3.up * unitShoulderHeight,
+                    shootDir,
+                    Vector3.Distance(unitWorldPosition, targetUnit.GetWorldPosition()),
+                    obstacleLayerMask))
+               {
+                    //if this raycast hit something, means it blocked by an obstacle
+                    continue;
+        
+               }
+
+
                 //if it is valid, add this grid position into the valid gridposition list
                 validGridPositionList.Add(testGridPosition);
 
@@ -228,6 +251,31 @@ public class ShootAction : BaseAction
     
     }
 
+
+
+    //how many points will AI get if it take this move
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition)
+    {
+        
+        Unit targetUnit = LevelGrid.Instance.GetUnitAtGridPosition(gridPosition);
+
+
+         //enemy AI will  tend to shoot the target with least health point first
+        return new EnemyAIAction
+        {
+            gridPosition = gridPosition,
+            actionValue = 100 + Mathf.RoundToInt((1- targetUnit.GetHealthNormalized()) * 100f)
+
+        };
+    }
+
+
+
+    public int GetTargetCountAtPosition(GridPosition gridPosition) 
+    {
+        //return how many shootable grid/unit we have so we can make calculation for enemy ai move
+       return GetValidActionGridPositionList(gridPosition).Count;
+    }
 
 
 }

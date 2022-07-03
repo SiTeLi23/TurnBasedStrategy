@@ -65,5 +65,18 @@ public class SpinAction : BaseAction
     }
 
 
+    //how many points will AI get if it take this move
+    public override EnemyAIAction GetEnemyAIAction(GridPosition gridPosition) 
+    {
+
+        return new EnemyAIAction
+        {
+            gridPosition = gridPosition,
+            actionValue = 0
+
+        };
+    }
+
+
 
 }

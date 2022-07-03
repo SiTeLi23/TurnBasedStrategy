@@ -1,13 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System;
 
-public class GridSystem 
+public class GridSystem<TGridObject> 
 {
-
-
-    //This script mainly contain all the grid information
-    //This script mainly responsible for converting World/Grid Position
 
     private int width;
     private int height;
@@ -15,16 +12,16 @@ public class GridSystem
 
 
     //creat a 2 dimentional array
-    private GridObject[,] gridObjectArray;
+    private TGridObject[,] gridObjectArray;
 
     //constructor
-    public GridSystem(int width,int height,float cellSize) 
+    public GridSystem(int width,int height,float cellSize,Func<GridSystem<TGridObject>,GridPosition,TGridObject> createGridObject) 
     {
         this.width = width;
         this.height = height;
         this.cellSize = cellSize;
 
-        gridObjectArray = new GridObject[width, height];
+        gridObjectArray = new TGridObject[width, height];
 
 
 
@@ -39,7 +36,7 @@ public class GridSystem
                 GridPosition gridPosition = new GridPosition(x, z);
 
                 //creat an array of new gridObjects which contain information about which gridSystem created it and its current gridPosition
-                gridObjectArray[x,z] = new GridObject(this, gridPosition);
+                gridObjectArray[x,z] = createGridObject(this,gridPosition);
        
             }
         
@@ -91,7 +88,7 @@ public class GridSystem
 
 
 
-    public GridObject GetGridObject(GridPosition gridPosition) 
+    public TGridObject GetGridObject(GridPosition gridPosition) 
     {
         return gridObjectArray[gridPosition.x, gridPosition.z];
     }

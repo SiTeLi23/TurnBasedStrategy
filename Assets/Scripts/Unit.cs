@@ -23,19 +23,21 @@ public class Unit : MonoBehaviour
     private HealthSystem healthSystem;
 
 
-    private MoveAction moveAction;
-    private SpinAction spinAction;
+    //store all the available actions within this unit which will be instantiate later through UnitActionSystem
     private BaseAction[] baseActionArray;
+   
 
     [SerializeField]private int actionPoints = ACTION_POINTS_MAX;
 
 
     private void Awake()
     {
-        moveAction = GetComponent<MoveAction>();
-        spinAction = GetComponent<SpinAction>();
+  
         baseActionArray = GetComponents<BaseAction>();
         healthSystem = GetComponent<HealthSystem>();
+        actionPoints = ACTION_POINTS_MAX;
+
+
     }
 
     private void Start()
@@ -82,18 +84,26 @@ public class Unit : MonoBehaviour
     }
 
 
-
-    //give other scripts access to the move action script reference
-    public MoveAction GetMoveAction() 
+    //generic function which only work with class that extend base actionw
+    //this function can be used to get any action type we want
+    public T GetAction<T>() where T : BaseAction
     {
-        return moveAction;
+        //cycle through each actions attached to this unit
+         foreach(BaseAction baseAction in baseActionArray) 
+        {
+           if(baseAction is T) 
+            {
+                //we nned to cast this valid base action into type T
+                return (T)baseAction;
+            }
+
+        }
+       return null;
     }
 
-    //give other scripts access to the spin action script reference
-    public SpinAction GetSpinAction()
-    {
-        return spinAction;
-    }
+
+
+
 
     //give other scripts access to current grid where this unit locate
     public GridPosition GetGridPosition() 
@@ -211,6 +221,12 @@ public class Unit : MonoBehaviour
         Destroy(gameObject);
 
         OnAnyUnitDead?.Invoke(this, EventArgs.Empty);
+    
+    }
+
+    public float GetHealthNormalized() 
+    {
+        return healthSystem.GetHealthNormalized();
     
     }
 

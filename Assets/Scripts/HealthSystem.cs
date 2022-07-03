@@ -38,8 +38,6 @@ public class HealthSystem : MonoBehaviour
         }
 
 
-        Debug.Log(health);
-
     }
 
 

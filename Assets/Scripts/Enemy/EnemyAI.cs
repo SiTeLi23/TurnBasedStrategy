@@ -111,20 +111,67 @@ public class EnemyAI : MonoBehaviour
 
     private bool TryTakeEnemyAIAction(Unit enemyUnit, Action onEnemyAIActionComplete)
     {
-         SpinAction spinAction = enemyUnit.GetSpinAction();
 
-       
-        GridPosition actionGridPosition = enemyUnit.GetGridPosition();
+        //track the best enemy ai action
+        EnemyAIAction bestEnemyAIAction = null;
+        //store which on is the best action
+        BaseAction bestBaseAction = null;
 
-        //test if its valid grid position
-        if (!spinAction.IsValidActionGridPosition(actionGridPosition)) return false;
 
-        //if this unit can't afford the selection action cost, do nothing
-        if (!enemyUnit.TrySpendActionPointsToTakeAction(spinAction)) return false;
+        //cycle through all the base action this unit can take
+       foreach( BaseAction baseAction in enemyUnit.GetBaseActionArray()) 
+        {
+           if(!enemyUnit.CanSpendActionPointsToTakeAction(baseAction)) 
+            {
+                //if an action can not be afford to take at that moment,ignore it
+                continue;
+            }
 
-    
-        spinAction.TakeAction(actionGridPosition, onEnemyAIActionComplete);
-        return true;
+               //get the first affordable action 
+           if(bestEnemyAIAction == null) 
+            {
+                bestEnemyAIAction = baseAction.GetBestEnemyAIAction();
+                bestBaseAction = baseAction;
+            }
+              //then compare the first stored one and replace it with potential better one later
+            else 
+            {
+                EnemyAIAction testEnemyAIAction = baseAction.GetBestEnemyAIAction();
+                //to check if the next Best AIAction can be taken and it's value is better then the previous stored one
+                if(testEnemyAIAction != null && testEnemyAIAction.actionValue > bestEnemyAIAction.actionValue) 
+                {
+                    //if it is , then this action is the new best action
+                    bestEnemyAIAction = testEnemyAIAction;
+                    bestBaseAction = baseAction;
+
+                }
+            
+            }
+
+           //if enemy has enough action points to take this action, we get the most valued AI Action
+            baseAction.GetBestEnemyAIAction();
+        
+        }
+
+
+        if(bestEnemyAIAction!=null && enemyUnit.TrySpendActionPointsToTakeAction(bestBaseAction)) 
+        {
+            //if enemy have a best action and the action is affordable at that moment
+            bestBaseAction.TakeAction(bestEnemyAIAction.gridPosition,  onEnemyAIActionComplete);
+          
+            return true;
+        
+        
+        }
+        else 
+        {
+        
+            return false;
+        
+        }
+
+
+  
 
     }
 }

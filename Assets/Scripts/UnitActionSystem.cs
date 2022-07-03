@@ -162,7 +162,7 @@ public class UnitActionSystem : MonoBehaviour
         selectedUnit = unit;
 
         //current unit's action is set to move right now
-        SetSelectedAction(unit.GetMoveAction());
+        SetSelectedAction(unit.GetAction<MoveAction>());
 
         //if there's a event, fire this event to all listeners
         OnSelectedUnitChanged?.Invoke(this, EventArgs.Empty);

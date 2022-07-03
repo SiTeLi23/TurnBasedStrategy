@@ -41,6 +41,7 @@ public abstract class BaseAction : MonoBehaviour
 
     }
 
+    //cycle through the list to get all valid positions
     public abstract List<GridPosition> GetValidActionGridPositionList();
 
 
@@ -82,5 +83,44 @@ public abstract class BaseAction : MonoBehaviour
         return unit;
     }
 
+
+
+
+    public EnemyAIAction GetBestEnemyAIAction() 
+    {
+        List<EnemyAIAction> enemyAiActionList = new List<EnemyAIAction>();
+        List<GridPosition>  validActionGridPositionList= GetValidActionGridPositionList();
+
+        //cycle through all valid gridposition
+        foreach(GridPosition gridPosition in validActionGridPositionList) 
+        {
+            //generate all potential  ai actiosn and add them to list
+            EnemyAIAction enemyAIAction = GetEnemyAIAction(gridPosition);
+            enemyAiActionList.Add(enemyAIAction);
+        }
+
+
+        //calculate all the ai actions points
+        if (enemyAiActionList.Count > 0)
+        {
+            //sort the list to find the best aiaction at that moment(which has the most action points value)
+            enemyAiActionList.Sort((EnemyAIAction a, EnemyAIAction b) => b.actionValue - a.actionValue);
+
+            //return the value which has already been sorted and put at the 1st index
+            return enemyAiActionList[0];
+        }
+        else 
+        {
+            //no possile enemy ai actions
+            return null;
+           
+        }
+
+    }
+
+
+    //each action have this function, get an AIAction and calculate the score for certain grid position
+    public abstract EnemyAIAction GetEnemyAIAction(GridPosition gridPosition); 
+  
     
 }
