@@ -48,7 +48,7 @@ public class ShootAction : BaseAction
         {
             case State.Aiming:
                 //rotate to target
-                Vector3 aimDir = (targetUnit.GetWorldPosition() - transform.position).normalized;
+                Vector3 aimDir = (targetUnit.GetWorldPosition() - unit.GetWorldPosition()).normalized;
                 float rotateSpeed = 10f;
                 transform.forward = Vector3.Lerp(transform.forward, aimDir, Time.deltaTime * rotateSpeed);
 

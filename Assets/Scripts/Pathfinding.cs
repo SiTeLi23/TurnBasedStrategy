@@ -300,10 +300,17 @@ public class Pathfinding : MonoBehaviour
     
     }
 
-
-    public bool IsWalkableGridPosition(GridPosition gridPosition) 
+    //getter for whether a grid is walkable
+    public bool IsWalkableGridPosition(GridPosition gridPosition)
     {
-        return gridSystem.GetGridObject(gridPosition).IsWalkable();
+       return gridSystem.GetGridObject(gridPosition).IsWalkable();
+
+    }
+
+    //setter to make sure we can update whether a grid is walkable
+    public void SetIsWalkableGridPosition(GridPosition gridPosition,bool isWalkable) 
+    {
+         gridSystem.GetGridObject(gridPosition).SetIsWalkable(isWalkable);
     
     }
 

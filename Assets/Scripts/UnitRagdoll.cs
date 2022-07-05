@@ -12,7 +12,11 @@ public class UnitRagdoll : MonoBehaviour
     {
         MatchAllChildTransforms(originalRootBone, ragdollRootBone);
 
-        ApplyExplosionToRagdoll(ragdollRootBone, 300f,transform.position, 10f);
+        //randome direction
+
+        Vector3 randomDir = new Vector3(Random.Range(-1f, +1f), 0, Random.Range(-1f, +1f));
+
+        ApplyExplosionToRagdoll(ragdollRootBone, 300f,transform.position + randomDir, 10f);
         
     }
 
@@ -54,6 +58,9 @@ public class UnitRagdoll : MonoBehaviour
 
                 childrigidBody.AddExplosionForce(explosionForce, explosionPosition, explosionRange);
             }
+
+          
+
 
             //make sure next and other levels of childs also get that explosion force
             ApplyExplosionToRagdoll(child, explosionForce, explosionPosition, explosionRange);
