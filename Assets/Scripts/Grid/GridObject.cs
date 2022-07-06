@@ -15,6 +15,8 @@ public class GridObject
 
     //get a list of current units on this grid
     private List<Unit> unitList;
+
+    private Door door;
     
     public GridObject(GridSystem<GridObject> gridSystem,GridPosition gridPosition) 
     {
@@ -89,6 +91,18 @@ public class GridObject
     }
 
     #endregion
+
+
+    public Door GetDoor() 
+    {
+        return door;
+    }
+
+    public void SetDoor(Door door) 
+    {
+        this.door = door;
+        
+    }
 
 
 }
