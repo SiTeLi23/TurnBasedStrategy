@@ -25,9 +25,9 @@ public class Unit : MonoBehaviour
 
     //store all the available actions within this unit which will be instantiate later through UnitActionSystem
     private BaseAction[] baseActionArray;
-   
 
-    [SerializeField]private int actionPoints = ACTION_POINTS_MAX;
+    [SerializeField] private int StartactionPoints = 4;
+    private int actionPoints ;
 
 
     private void Awake()
@@ -35,7 +35,7 @@ public class Unit : MonoBehaviour
   
         baseActionArray = GetComponents<BaseAction>();
         healthSystem = GetComponent<HealthSystem>();
-        actionPoints = ACTION_POINTS_MAX;
+        actionPoints = StartactionPoints;
 
 
     }
@@ -190,7 +190,7 @@ public class Unit : MonoBehaviour
         {
 
             //reset the action Points
-            actionPoints = ACTION_POINTS_MAX;
+            actionPoints = StartactionPoints;
 
             OnAnyActionPointsChanged?.Invoke(this, EventArgs.Empty);
         }

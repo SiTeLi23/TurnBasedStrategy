@@ -111,7 +111,7 @@ public abstract class BaseAction : MonoBehaviour
         }
         else 
         {
-            //no possile enemy ai actions
+            //no possible enemy ai actions
             return null;
            
         }

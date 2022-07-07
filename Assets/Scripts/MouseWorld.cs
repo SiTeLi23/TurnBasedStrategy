@@ -26,7 +26,7 @@ public class MouseWorld : MonoBehaviour
     public static Vector3 GetPosition() 
     {
         //shooting a ray from main camera based on the mouse screen pixel position
-        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+        Ray ray = Camera.main.ScreenPointToRay(InputManager.Instance.GetMouseScreenPosition());
 
         //use that ray to create a raycast to get hit information
         Physics.Raycast(ray, out RaycastHit raycastHit, float.MaxValue, instance.mousePlaneLayerMask);

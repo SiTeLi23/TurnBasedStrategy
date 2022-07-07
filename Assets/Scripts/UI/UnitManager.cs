@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using System;
+using UnityEngine.SceneManagement;
 
 public class UnitManager : MonoBehaviour
 {
@@ -15,6 +16,7 @@ public class UnitManager : MonoBehaviour
 
     [SerializeField] private List<Unit> enemyUnitList;
 
+    
 
     private void Awake()
     {
@@ -43,6 +45,14 @@ public class UnitManager : MonoBehaviour
 
 
     }
+
+    private void OnDisable()
+    {
+        Unit.OnAnyUnitSpawed -= Unit_OnAnyUnitSpawed;
+        Unit.OnAnyUnitDead -= Unit_OnAnyUnitDead;
+    }
+
+  
 
     private void Unit_OnAnyUnitSpawed(object sender,EventArgs e) 
     {

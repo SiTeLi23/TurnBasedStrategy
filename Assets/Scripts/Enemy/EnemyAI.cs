@@ -31,6 +31,11 @@ public class EnemyAI : MonoBehaviour
         TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
     }
 
+    private void OnDisable()
+    {
+        TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
+    }
+
     private void Update()
     {
         //if its player turn, do nothing

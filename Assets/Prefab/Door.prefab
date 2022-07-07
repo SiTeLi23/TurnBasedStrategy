@@ -48,6 +48,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOpen: 0
+  hide: {fileID: 0}
+  enemies: []
+  doorOpenSound: {fileID: 6430323821696458060, guid: ceacb1977d79bf14eada8df1518f6921,
+    type: 3}
 --- !u!95 &4455975522697848621
 Animator:
   serializedVersion: 4

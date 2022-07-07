@@ -8,7 +8,7 @@ public class GrenadeAction : BaseAction
 
     [SerializeField] private Transform grenadeProjectilePrefab;
     [SerializeField] private int maxThrowDistance = 7;
-  
+    [SerializeField] LayerMask obstacleLayerMask;
 
     private void Update()
     {
@@ -63,6 +63,28 @@ public class GrenadeAction : BaseAction
                 if (testDistance > maxThrowDistance)
                 {
                     continue;
+                }
+
+                int pathfindingDistanceMultiplier = 20; //because our preset straignt and diagonal move value has multiply 20 , so when calculating path length, we also need to multiply 10
+                if (Pathfinding.Instance.GetPathLength(unitGridPosition, testGridPosition) > maxThrowDistance * pathfindingDistanceMultiplier)
+                {
+                    //path length too far , prevent moving across a long way to pass through obstacles
+                    continue;
+                }
+
+                
+                Vector3 throwDir = (LevelGrid.Instance.GetWorldPosition(testGridPosition) - unit.GetWorldPosition()).normalized;
+                float unitShoulderHeight = 1.7f;
+
+                if (Physics.Raycast(
+                     unit.GetWorldPosition() + Vector3.up * unitShoulderHeight,
+                     throwDir,
+                     Vector3.Distance(unit.GetWorldPosition(), LevelGrid.Instance.GetWorldPosition(testGridPosition)),
+                     obstacleLayerMask))
+                {
+                    //if this raycast hit something, means it blocked by an obstacle
+                    continue;
+
                 }
 
 

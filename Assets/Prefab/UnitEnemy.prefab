@@ -7,6 +7,41 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 884316660515215520, guid: b4cba1a2d8a6fff4fb401eca7475532b,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.09868278
+      objectReference: {fileID: 0}
+    - target: {fileID: 884316660515215520, guid: b4cba1a2d8a6fff4fb401eca7475532b,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.14143205
+      objectReference: {fileID: 0}
+    - target: {fileID: 884316660515215520, guid: b4cba1a2d8a6fff4fb401eca7475532b,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.6792453
+      objectReference: {fileID: 0}
+    - target: {fileID: 3437992760875746537, guid: b4cba1a2d8a6fff4fb401eca7475532b,
+        type: 3}
+      propertyPath: m_fontColor.b
+      value: 0.11764705
+      objectReference: {fileID: 0}
+    - target: {fileID: 3437992760875746537, guid: b4cba1a2d8a6fff4fb401eca7475532b,
+        type: 3}
+      propertyPath: m_fontColor.g
+      value: 0.17923287
+      objectReference: {fileID: 0}
+    - target: {fileID: 3437992760875746537, guid: b4cba1a2d8a6fff4fb401eca7475532b,
+        type: 3}
+      propertyPath: m_fontColor.r
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3437992760875746537, guid: b4cba1a2d8a6fff4fb401eca7475532b,
+        type: 3}
+      propertyPath: m_fontColor32.rgba
+      value: 4280168191
+      objectReference: {fileID: 0}
     - target: {fileID: 5043111975891471866, guid: b4cba1a2d8a6fff4fb401eca7475532b,
         type: 3}
       propertyPath: ragdollPrefab
@@ -82,6 +117,11 @@ PrefabInstance:
         type: 3}
       propertyPath: isEnemy
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8166251792890549037, guid: b4cba1a2d8a6fff4fb401eca7475532b,
+        type: 3}
+      propertyPath: StartactionPoints
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: b4cba1a2d8a6fff4fb401eca7475532b, type: 3}

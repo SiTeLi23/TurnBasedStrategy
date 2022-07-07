@@ -75,14 +75,47 @@ public class GridSystemVisual : MonoBehaviour
         //subscribe to events , so no need to update grid every frame
         UnitActionSystem.Instance.OnSelectedActionChanged += UnitActionSystem_OnSelectedActionChanged;
         LevelGrid.Instance.OnAnyUnitMoveGridPosition += LevelGrid_OnAnyUnitMoveGridPosition;
+        TurnSystem.Instance.OnTurnChanged += TurnSystem_OnTurnChanged;
+        Unit.OnAnyUnitDead += Unit_OnAnyUnitDead;
+       
 
         UpdateGridVisual();
+
     }
 
+    
 
- 
+    private void OnDisable()
+    {
+        UnitActionSystem.Instance.OnSelectedActionChanged -= UnitActionSystem_OnSelectedActionChanged;
+        LevelGrid.Instance.OnAnyUnitMoveGridPosition -= LevelGrid_OnAnyUnitMoveGridPosition;
+        TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
+        Unit.OnAnyUnitDead -= Unit_OnAnyUnitDead;
+    }
 
+    private void TurnSystem_OnTurnChanged(object sender, EventArgs e)
+    {
+        List<Unit> RemainUnitList = UnitManager.Instance.GetFriendlyUnitList();
+        if (RemainUnitList.Count > 0)
+        {
+            Unit nextUnit = RemainUnitList[0];
+            UnitActionSystem.Instance.SetSelectedUnit(nextUnit);
+        }
+    }
 
+    private void Unit_OnAnyUnitDead(object sender, EventArgs e)
+    {
+        Unit deadUnit = sender as Unit;
+        UpdateGridVisual();
+        if (deadUnit.IsEnemy()) return;
+        List<Unit> RemainUnitList = UnitManager.Instance.GetFriendlyUnitList();
+        if (RemainUnitList.Count > 0)
+        {
+            Unit nextUnit = RemainUnitList[0];
+            UnitActionSystem.Instance.SetSelectedUnit(nextUnit);
+        }
+        
+    }
 
     public void HideAllGridPosition() 
     {

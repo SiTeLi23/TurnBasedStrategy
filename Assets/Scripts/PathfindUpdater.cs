@@ -9,6 +9,10 @@ public class PathfindUpdater : MonoBehaviour
     {
         DestructableCrate.OnAnyDestroyed += DestructableCrate_OnAnyDestroyed;
     }
+    private void OnDisable()
+    {
+        DestructableCrate.OnAnyDestroyed -= DestructableCrate_OnAnyDestroyed;
+    }
 
     private void DestructableCrate_OnAnyDestroyed(object sender, EventArgs e)
     {

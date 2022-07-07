@@ -36,6 +36,15 @@ public class UnitActionSystemUI : MonoBehaviour
         UpdateSelectedVisual();
     }
 
+    private void OnDisable()
+    {
+        UnitActionSystem.Instance.OnSelectedUnitChanged -= UnitActionSystem_OnSelectedUnitChanged;
+        UnitActionSystem.Instance.OnSelectedActionChanged -= UnitActionSystem_OnSelectedActionChanged;
+        UnitActionSystem.Instance.OnActionStarted -= UnitActionSystem_OnActionStarted;
+        TurnSystem.Instance.OnTurnChanged -= TurnSystem_OnTurnChanged;
+        Unit.OnAnyActionPointsChanged -= Unit_OnAnyActionPointsChanged;
+    }
+
 
 
     private void CreateUnitActionButtons() 
@@ -103,6 +112,7 @@ public class UnitActionSystemUI : MonoBehaviour
     {
         //every time the turn end, update current Action Points text
         UpdateActionPoints();
+        
 
     }
 
